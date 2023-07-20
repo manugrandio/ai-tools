@@ -1,17 +1,14 @@
-import config from "./config/config"
 import { Response } from "express";
 import http from "http";
-import { setupServer } from "./server/server";
-
-const dummyORM = () => {
-  return new Promise<void>(resolve => resolve());
-}
+import config from "config/config"
+import dataSource from "orm/orm.config";
+import { setupServer } from "server/server";
 
 async function bootstrap(): Promise<http.Server> {
   const app = setupServer();
 
   const port = config.APP_PORT;
-  await dummyORM();
+  await dataSource.initialize();
 
   app.get("/", (_, res: Response) => {
     res.send(`Listening on port: ${port}`);
