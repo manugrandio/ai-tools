@@ -12,6 +12,15 @@ services:
     ports:
       - 3000:3000
 
+  worker:
+    container_name: worker
+    restart: always
+    build: worker
+    env_file: .env
+    depends_on:
+      - rabbitmq
+      - main
+
   postgres:
     image: postgres:alpine
     container_name: postgres

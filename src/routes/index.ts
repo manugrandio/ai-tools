@@ -9,13 +9,22 @@ const helloWorld = async (_: Request, res: Response) => {
   const channel: Channel = await connection.createChannel()
   await channel.assertQueue('testQueue');
   channel.sendToQueue('testQueue', Buffer.from('hello world from queue'));
-  connection.close();
 
+  setTimeout(() => {
+    connection.close();
+  }, 500);
+
+  res.status(201).send({ "msg": "hello world" });
+};
+
+const msgReceived = async (_: Request, res: Response) => {
+  console.log('MSG RECEIVED');
   res.status(201).send({ "msg": "hello world" });
 };
 
 const routes = Router();
 
 routes.get("/hello-world", helloWorld as RequestHandler);
+routes.get("/msg-received", msgReceived as RequestHandler);
 
 export default routes;
