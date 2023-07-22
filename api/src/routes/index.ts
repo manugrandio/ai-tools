@@ -1,5 +1,6 @@
 import { Router, RequestHandler, Request, Response } from "express";
 import client, { Connection, Channel } from "amqplib";
+import { TranscriptionController } from "modules/transcription.controller";
 
 const helloWorld = async (_: Request, res: Response) => {
   const connection: Connection = await client.connect(
@@ -22,9 +23,12 @@ const msgReceived = async (_: Request, res: Response) => {
   res.status(201).send({ "msg": "hello world" });
 };
 
+const transcriptionController = new TranscriptionController();
+
 const routes = Router();
 
 routes.get("/hello-world", helloWorld as RequestHandler);
 routes.get("/msg-received", msgReceived as RequestHandler);
+routes.post("/transcription", transcriptionController.create.bind(transcriptionController) as RequestHandler);
 
 export default routes;
