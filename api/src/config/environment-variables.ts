@@ -32,5 +32,17 @@ export class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
   public DB_NAME: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  public RABBITMQ_PORT: number;
+
+  @IsString()
+  @IsNotEmpty()
+  public RABBITMQ_USERNAME: string;
+
+  @IsString()
+  @IsNotEmpty()
+  public RABBITMQ_PASSWORD: string;
 }
 

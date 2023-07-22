@@ -1,8 +1,9 @@
 import crypto from "crypto";
 import { DeepPartial, Repository } from "typeorm";
+import dataSource from "orm/orm.config";
 import { CreateTranscriptionDto } from "./transcription.dto";
 import { Transcription } from "./entities/transcription.entity";
-import dataSource from "orm/orm.config";
+import { addToQueue } from "./rabbitmq.service";
 
 export class TranscriptionService {
   private readonly transcriptionRepository: Repository<Transcription>;
@@ -23,8 +24,10 @@ export class TranscriptionService {
     const transcriptionData: DeepPartial<Transcription> = { content, hash };
 
     const newTranscription = this.transcriptionRepository.create(transcriptionData);
-    const transcription = this.transcriptionRepository.save(newTranscription);
-    // TODO send to RabbitMQ
+    const transcription = await this.transcriptionRepository.save(newTranscription);
+
+    await addToQueue(transcription.uuid, transcription.content);
+
     return transcription;
   }
 
