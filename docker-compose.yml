@@ -2,10 +2,10 @@ version: "1.0.2"
 
 services:
   main:
-    container_name: main-app
+    container_name: main
     restart: always
-    build: .
-    env_file: .env
+    build: api
+    env_file: api/.env
     depends_on:
       - postgres
       - rabbitmq
