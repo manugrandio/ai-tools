@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node main.ts",
+    "start": "ts-node src/main.ts",
     "lint": "eslint \"{src, test}/**/*.ts\" --fix",
     "test": "NODE_ENV=test jest --runInBand --verbose --coverage"
   },

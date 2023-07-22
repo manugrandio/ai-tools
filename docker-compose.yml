@@ -16,7 +16,6 @@ services:
     container_name: worker
     restart: always
     build: worker
-    env_file: .env
     depends_on:
       - rabbitmq
       - main
