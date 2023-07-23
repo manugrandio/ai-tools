@@ -11,6 +11,7 @@
   "author": "Manu Grandio",
   "dependencies": {
     "amqplib": "^0.10.3",
+    "axios": "^1.4.0",
     "openai": "^3.3.0",
     "dotenv": "^16.0.3"
   },

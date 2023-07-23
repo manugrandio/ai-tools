@@ -5,3 +5,16 @@ export class CreateTranscriptionDto {
   @IsNotEmpty()
   public content: string;
 }
+
+export class UpdateTranscriptionDto {
+  @IsString()
+  @IsNotEmpty()
+  public uuid: string;
+
+  @IsString()
+  @IsNotEmpty()
+  public status: string;
+
+  @IsString()
+  public summary?: string;
+}

@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import { DeepPartial, Repository } from "typeorm";
 import dataSource from "orm/orm.config";
-import { CreateTranscriptionDto } from "./transcription.dto";
+import { CreateTranscriptionDto, UpdateTranscriptionDto } from "./transcription.dto";
 import { Transcription } from "./entities/transcription.entity";
 import { addToQueue } from "./rabbitmq.service";
 
@@ -36,6 +36,16 @@ export class TranscriptionService {
 
   public async findTranscription(hash: string): Promise<Transcription | null> {
     return this.transcriptionRepository.findOneBy({ hash });
+  }
+
+  public async update(data: UpdateTranscriptionDto): Promise<void> {
+    const { uuid, status, summary } = data;
+    await dataSource
+      .createQueryBuilder()
+      .update(Transcription)
+      .set({ status, summary })
+      .where("uuid = :uuid", { uuid })
+      .execute();
   }
 
   public calculateHash(content: string): string {
