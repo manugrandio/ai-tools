@@ -1,11 +1,16 @@
 import http from 'http';
 import client, { Connection, Channel, Message } from 'amqplib/callback_api';
+// import { OpenAIService } from 'modules/openai.service';
 
 console.log("WORKER STARTED");
 
 const QUEUE_NAME = "generateSummary";
+const username = process.env.RABBITMQ_USERNAME;
+const password = process.env.RABBITMQ_PASSWORD;
+const port = process.env.RABBITMQ_PORT;
+const connectionStr = `amqp://${username}:${password}@rabbitmq:${port}`;
 
-client.connect('amqp://username:password@rabbitmq:5672', (error0: any, connection: Connection) => {
+client.connect(connectionStr, (error0: any, connection: Connection) => {
   if (error0) {
     console.log("ERROR CONNECT", error0);
   }
@@ -20,9 +25,15 @@ client.connect('amqp://username:password@rabbitmq:5672', (error0: any, connectio
       if (msg) {
         const content = JSON.parse(msg.content.toString());
         console.log(" [x] Received %s", content);
+
+        // const openAIService = new OpenAIService();
+        // const summary = openAIService.summarizeText(content);
+
+        // console.log("SUMMARY", summary);
+
         channel.ack(msg);
 
-        await http.get('http://main:3000/api/msg-received');
+        await http.get('http://api:3000/api/msg-received');
       }
     });
   });

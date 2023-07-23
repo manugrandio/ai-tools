@@ -1,14 +1,14 @@
 version: "1.0.2"
 
 services:
-  main:
-    container_name: main
+  api:
+    container_name: api
     restart: always
     build: api
-    env_file: api/.env
+    env_file: .env
     volumes:
       - ./api:/app
-      - /node_modules
+      - /app/node_modules
     depends_on:
       - postgres
       - rabbitmq
@@ -19,12 +19,12 @@ services:
     container_name: worker
     restart: always
     build: worker
+    env_file: .env
     volumes:
       - ./worker:/app
-      - /node_modules
+      - /app/node_modules
     depends_on:
       - rabbitmq
-      - main
 
   postgres:
     image: postgres:alpine
