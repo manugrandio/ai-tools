@@ -12,6 +12,13 @@ export class TranscriptionService {
     this.transcriptionRepository = dataSource.getRepository(Transcription);
   }
 
+  public async save(content: string, hash: string): Promise<Transcription> {
+    const transcriptionData: DeepPartial<Transcription> = { content, hash };
+
+    const newTranscription = this.transcriptionRepository.create(transcriptionData);
+    return await this.transcriptionRepository.save(newTranscription);
+  }
+
   public async create(data: CreateTranscriptionDto): Promise<Transcription> {
     const { content } = data;
     const hash = this.calculateHash(content);
@@ -21,11 +28,7 @@ export class TranscriptionService {
       return existingTranscription;
     }
 
-    const transcriptionData: DeepPartial<Transcription> = { content, hash };
-
-    const newTranscription = this.transcriptionRepository.create(transcriptionData);
-    const transcription = await this.transcriptionRepository.save(newTranscription);
-
+    const transcription = await this.save(content, hash);
     await addToQueue(transcription.uuid, transcription.content);
 
     return transcription;

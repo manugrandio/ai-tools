@@ -13,12 +13,9 @@ export const addToQueue = async (uuid: string, content: string) => {
   const channel: Channel = await connection.createChannel()
   await channel.assertQueue(QUEUE_NAME);
   const message = JSON.stringify({ uuid, content });
-  console.log("SENDING TO QUEUE");
-  await channel.sendToQueue(QUEUE_NAME, Buffer.from(message));
+  channel.sendToQueue(QUEUE_NAME, Buffer.from(message));
 
   setTimeout(() => {
     connection.close();
   }, 500);
-
-  console.log("FINISHED SENDING TO QUEUE");
 };
