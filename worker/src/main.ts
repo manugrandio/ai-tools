@@ -3,6 +3,8 @@ import client, { Connection, Channel, Message } from 'amqplib/callback_api';
 
 console.log("WORKER STARTED");
 
+const QUEUE_NAME = "generateSummary";
+
 client.connect('amqp://username:password@rabbitmq:5672', (error0: any, connection: Connection) => {
   if (error0) {
     console.log("ERROR CONNECT", error0);
@@ -11,13 +13,13 @@ client.connect('amqp://username:password@rabbitmq:5672', (error0: any, connectio
     if (error1) {
       throw error1;
     }
-    const queueName = 'testQueue';
-    channel.assertQueue(queueName);
-    console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queueName);
-    channel.consume(queueName, async (msg: Message | null) => {
+    channel.assertQueue(QUEUE_NAME);
+    console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", QUEUE_NAME);
+    channel.consume(QUEUE_NAME, async (msg: Message | null) => {
       console.log("CONSUMED");
       if (msg) {
-        console.log(" [x] Received %s", msg.content.toString());
+        const content = JSON.parse(msg.content.toString());
+        console.log(" [x] Received %s", content);
         channel.ack(msg);
 
         await http.get('http://main:3000/api/msg-received');
