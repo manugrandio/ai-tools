@@ -5,9 +5,9 @@ export class SummaryService {
   private readonly openAIService: OpenAIService;
   private readonly apiService: APIService;
 
-  constructor() {
-    this.openAIService = new OpenAIService();
-    this.apiService = new APIService();
+  constructor(openAIService?: OpenAIService, apiService?: APIService) {
+    this.openAIService = typeof openAIService === "undefined" ? new OpenAIService() : openAIService;
+    this.apiService = typeof apiService === "undefined" ? new APIService() : apiService;
   }
 
   public async generateSummary(content: string, uuid: string): Promise<void> {
