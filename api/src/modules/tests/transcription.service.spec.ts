@@ -1,6 +1,6 @@
 import { tearDownDatabase } from "helpers/utils";
 import { Transcription } from "modules/entities/transcription.entity";
-import { CreateTranscriptionDto } from "modules/transcription.dto";
+import { CreateTranscriptionDto, UpdateTranscriptionDto } from "modules/transcription.dto";
 import { TranscriptionService } from "modules/transcription.service";
 import * as RabbitmqService from "modules/rabbitmq.service";
 import ds from "orm/orm.config";
@@ -66,6 +66,28 @@ describe("TranscriptionService", () => {
 
       expect(transcription).toBeInstanceOf(Transcription);
       expect(transcription?.uuid).toEqual(transcriptionCreated.uuid);
+    });
+  });
+
+  describe(".update", () => {
+    it("should update transcription", async () => {
+      const createTranscriptionDto: CreateTranscriptionDto = {
+        content: "the content of some transcription",
+      };
+      const transcriptionService = new TranscriptionService();
+      const transcriptionCreated = await transcriptionService.create(createTranscriptionDto);
+
+      const updateTranscriptionDto: UpdateTranscriptionDto = {
+        uuid: transcriptionCreated.uuid,
+        summary: "this is the summary",
+        status: "completed",
+      };
+      await transcriptionService.update(updateTranscriptionDto);
+
+      const transcription = await transcriptionService.get(transcriptionCreated.uuid);
+
+      expect(transcription?.summary).toEqual("this is the summary");
+      expect(transcription?.status).toEqual("completed");
     });
   });
 });
