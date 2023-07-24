@@ -86,10 +86,26 @@ It is run in your host, outside of the Docker environment, so you have to do the
 - `npm install --development`
 - `npm run test`
 
+#### Useful commands
+
+Comamand to list all created transcriptions:
+
+```
+docker exec -it postgres psql --username postgres -d postgres -c 'SELECT * FROM transcription'
+```
+
+Command to delete all created transcriptions:
+
+```
+docker exec -it postgres psql --username postgres -d postgres -c 'DELETE FROM transcription'
+```
+
+### Manual tests
+
 You can also run your own manual tests with the client of your choice.
 You can use two endpoints:
 
-### Create a transcription
+#### Create a transcription
 
 ```
 POST /api/transcription
@@ -111,7 +127,7 @@ The response looks like the following:
 }
 ```
 
-### Get a transcription
+#### Get a transcription
 
 ```
 GET /api/transcription/:uuid
