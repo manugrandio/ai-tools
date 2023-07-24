@@ -10,8 +10,11 @@ services:
       - ./api:/app
       - /app/node_modules
     depends_on:
-      - postgres
-      - rabbitmq
+      postgres:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+        restart: true
     ports:
       - 3000:3000
 
@@ -24,7 +27,9 @@ services:
       - ./worker:/app
       - /app/node_modules
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
+        restart: true
 
   postgres:
     image: postgres:alpine
@@ -40,6 +45,11 @@ services:
     image: rabbitmq:3.9.13-management-alpine
     container_name: rabbitmq
     restart: always
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 30s
+      retries: 3
     environment:
       RABBITMQ_DEFAULT_USER: username
       RABBITMQ_DEFAULT_PASS: password
