@@ -53,4 +53,19 @@ describe("TranscriptionService", () => {
       expect(jest.mocked(addToQueueMock).mock.calls).toHaveLength(0);
     });
   });
+
+  describe(".get", () => {
+    it("should return transcription", async () => {
+      const createTranscriptionDto: CreateTranscriptionDto = {
+        content: "the content of some transcription",
+      };
+      const transcriptionService = new TranscriptionService();
+      const transcriptionCreated = await transcriptionService.create(createTranscriptionDto);
+
+      const transcription = await transcriptionService.get(transcriptionCreated.uuid);
+
+      expect(transcription).toBeInstanceOf(Transcription);
+      expect(transcription?.uuid).toEqual(transcriptionCreated.uuid);
+    });
+  });
 });
