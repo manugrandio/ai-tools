@@ -7,8 +7,7 @@ const ERROR = "error";
 export class APIService {
   private async setTranscriptionStatus(uuid: string, status: string, summary?: string) {
     const payload = { status, summary };
-    const response = await axios.put(`http://api:3000/api/transcription/${uuid}`, payload);
-    return response.data; 
+    await axios.put(`http://api:3000/api/transcription/${uuid}`, payload);
   }
 
   public async setToProcessing(uuid: string) {

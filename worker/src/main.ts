@@ -1,4 +1,5 @@
 import client, { Connection, Channel, Message } from "amqplib/callback_api";
+import { RabbitmqMessage } from "modules/interfaces";
 import { SummaryService } from "modules/summary.service";
 
 const QUEUE_NAME = "generateSummary";
@@ -21,9 +22,9 @@ client.connect(connectionStr, (error0: any, connection: Connection) => {
 
     channel.assertQueue(QUEUE_NAME);
     channel.prefetch(RABBITMQ_MAX_MESSAGES);
-    channel.consume(QUEUE_NAME, async (msg: Message | null) => {
+    channel.consume(QUEUE_NAME, (msg: Message | null) => {
       if (msg) {
-        const msgContent = JSON.parse(msg.content.toString());
+        const msgContent = JSON.parse(msg.content.toString()) as RabbitmqMessage;
         console.log("RECEIVED", msgContent);
 
         const { content, uuid } = msgContent;
