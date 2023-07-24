@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class InitialMigration1690060943553 implements MigrationInterface {
-    name = "InitialMigration1690060943553"
+    public name = "InitialMigration1690060943553"
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TYPE "public"."transcription_status_enum" AS ENUM('queued', 'processing', 'completed', 'error')`);
