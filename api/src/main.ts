@@ -1,13 +1,12 @@
 import { Response } from "express";
 import http from "http";
-import config from "config/config"
 import dataSource from "orm/orm.config";
 import { setupServer } from "server/server";
 
 async function bootstrap(): Promise<http.Server> {
   const app = setupServer();
 
-  const port = config.APP_PORT;
+  const port = process.env.APP_PORT;
   await dataSource.initialize();
 
   app.get("/", (_, res: Response) => {
