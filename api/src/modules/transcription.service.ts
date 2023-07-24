@@ -38,6 +38,10 @@ export class TranscriptionService {
     return this.transcriptionRepository.findOneBy({ hash });
   }
 
+  public async get(uuid: string): Promise<Transcription | null> {
+    return this.transcriptionRepository.findOneBy({ uuid });
+  }
+
   public async update(data: UpdateTranscriptionDto): Promise<void> {
     const { uuid, status, summary } = data;
     await dataSource
