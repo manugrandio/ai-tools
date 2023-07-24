@@ -12,11 +12,11 @@ describe("SummaryService", () => {
 
   beforeEach(() => {
     apiService = new APIService();
-    setToProcessingMock = jest.spyOn(apiService, 'setToProcessing')
+    setToProcessingMock = jest.spyOn(apiService, "setToProcessing")
       .mockImplementation(() => Promise.resolve(undefined));
-    setToCompletedMock = jest.spyOn(apiService, 'setToCompleted')
+    setToCompletedMock = jest.spyOn(apiService, "setToCompleted")
       .mockImplementation(() => Promise.resolve(undefined));
-    setToErrorMock = jest.spyOn(apiService, 'setToError')
+    setToErrorMock = jest.spyOn(apiService, "setToError")
       .mockImplementation(() => Promise.resolve(undefined));
 
     openAiService = new OpenAIService();
@@ -31,7 +31,7 @@ describe("SummaryService", () => {
 
   describe(".generateSummary", () => {
     it("should generate a text summary and set it to completed if success", async () => {
-      summarizeTextMock = jest.spyOn(openAiService, 'summarizeText')
+      summarizeTextMock = jest.spyOn(openAiService, "summarizeText")
         .mockImplementation(() => Promise.resolve("summarized text"));
       const summaryService = new SummaryService(openAiService, apiService)
       const text = "this is a long text that should be summarized"
@@ -45,8 +45,8 @@ describe("SummaryService", () => {
     });
 
     it("should generate a text summary and set it to error if failure", async () => {
-      summarizeTextMock = jest.spyOn(openAiService, 'summarizeText')
-        .mockImplementation(() => Promise.reject(new Error('Summary error')));
+      summarizeTextMock = jest.spyOn(openAiService, "summarizeText")
+        .mockImplementation(() => Promise.reject(new Error("Summary error")));
       const summaryService = new SummaryService(openAiService, apiService)
       const text = "this is a long text that should be summarized"
       const uuid = "transcription-uuid"

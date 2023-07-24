@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { instanceToPlain } from "class-transformer";
 import { TranscriptionService } from "./transcription.service";
+import { RequestCreate, RequestUpdate } from "./interfaces";
 
 export class TranscriptionController {
   private readonly transcriptionService: TranscriptionService;
@@ -9,8 +10,9 @@ export class TranscriptionController {
     this.transcriptionService = new TranscriptionService();
   }
 
-  public async create(req: Request, res: Response, next: NextFunction) {
-    const createTranscriptionDto = { content: req.body.content };
+  public async create(req: RequestCreate, res: Response, next: NextFunction) {
+    const content = req.body.content;
+    const createTranscriptionDto = { content };
     try {
       const transcription = await this.transcriptionService.create(createTranscriptionDto);
       const plainTranscription = instanceToPlain(transcription);
@@ -31,7 +33,7 @@ export class TranscriptionController {
     }
   }
 
-  public async update(req: Request, res: Response, next: NextFunction) {
+  public async update(req: RequestUpdate, res: Response, next: NextFunction) {
     const { transcriptionUUID: uuid } = req.params;
     const updateTranscriptionDto = {
       uuid,
