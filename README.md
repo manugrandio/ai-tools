@@ -20,7 +20,8 @@ When that endpoint is used the following happens:
 
 - It calculates a hash for the submitted content that will be summarized
 - The database is queried for a hash that matches:
-  - If there's content whose hash matches: the transcription data is simply returned as stored in the database
+  - If there's content whose hash matches:
+    - the transcription data is simply returned as stored in the database
   - If there isn't content whose hash matches:
     - It stores the content along with its hash in PostgreSQL with `status = queued`
     - It adds a message to RabbitMQ so that it's received by the Worker service
@@ -64,7 +65,7 @@ Then follow these steps:
 - Make a copy of the sample environment file with `cp .env.test .env`
 - Set the value of `OPENAI_API_KEY` in the `.env` file with your OpenAI API key
 - Start the application by running `docker compose up --build`
-- Run database migrations with `docker exec -it api npm run migration:run`
+- When it's ready run database migrations with `docker exec -it api npm run migration:run`
 
 The application is now running.
 
