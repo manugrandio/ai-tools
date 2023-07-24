@@ -74,7 +74,7 @@ The application is now running.
 *Note: before running tests make sure the application is running by following the steps described in the previous section.*
 
 You can run **unit tests** for each service.
-They are run withing their Docker containers:
+They are run within their Docker containers:
 
 - **api**: `docker exec -it api npm run test`
 - **worker**: `docker exec -it worker npm run test`
@@ -88,7 +88,7 @@ It is run in your host, outside of the Docker environment, so you have to do the
 
 #### Useful commands
 
-Comamand to list all created transcriptions:
+Command to list all created transcriptions:
 
 ```
 docker exec -it postgres psql --username postgres -d postgres -c 'SELECT * FROM transcription'
