@@ -1,5 +1,5 @@
-import { OpenAIService } from 'modules/openai.service';
-import { APIService } from './api.service';
+import { OpenAIService } from "modules/openai.service";
+import { APIService } from "./api.service";
 
 export class SummaryService {
   private readonly openAIService: OpenAIService;

@@ -17,7 +17,7 @@ describe("TranscriptionService", () => {
   });
 
   beforeEach(() => {
-    addToQueueMock = jest.spyOn(RabbitmqService, 'addToQueue')
+    addToQueueMock = jest.spyOn(RabbitmqService, "addToQueue")
       .mockResolvedValue(undefined);
   });
 

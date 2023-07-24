@@ -16,7 +16,7 @@ export class TranscriptionService {
     const transcriptionData: DeepPartial<Transcription> = { content, hash };
 
     const newTranscription = this.transcriptionRepository.create(transcriptionData);
-    return await this.transcriptionRepository.save(newTranscription);
+    return this.transcriptionRepository.save(newTranscription);
   }
 
   public async create(data: CreateTranscriptionDto): Promise<Transcription> {

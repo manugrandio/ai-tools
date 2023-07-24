@@ -12,14 +12,14 @@ export class APIService {
   }
 
   public async setToProcessing(uuid: string) {
-    return await this.setTranscriptionStatus(uuid, PROCESSING);
+    return this.setTranscriptionStatus(uuid, PROCESSING);
   }
 
   public async setToCompleted(uuid: string, summary: string) {
-    return await this.setTranscriptionStatus(uuid, COMPLETED, summary);
+    return this.setTranscriptionStatus(uuid, COMPLETED, summary);
   }
 
   public async setToError(uuid: string) {
-    return await this.setTranscriptionStatus(uuid, ERROR);
+    return this.setTranscriptionStatus(uuid, ERROR);
   }
 }

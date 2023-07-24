@@ -1,5 +1,5 @@
-import client, { Connection, Channel, Message } from 'amqplib/callback_api';
-import { SummaryService } from 'modules/summary.service';
+import client, { Connection, Channel, Message } from "amqplib/callback_api";
+import { SummaryService } from "modules/summary.service";
 
 const QUEUE_NAME = "generateSummary";
 const username = process.env.RABBITMQ_USERNAME;
